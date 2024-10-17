@@ -11,10 +11,12 @@ terraform {
     }
   }
 
+  /*
   backend "azurerm" {
     resource_group_name  = "rg-simonhou-backend"
     storage_account_name = "sabe1416"
     container_name       = "tfstate"
     key                  = "terraform.tfstate"
   }
+  */
 }
