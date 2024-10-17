@@ -15,6 +15,6 @@ terraform {
     resource_group_name  = "rg-simonhou-backend"
     storage_account_name = "sabe1416"
     container_name       = "tfstate"
-    key                  = "${terraform.workspace}/terraform.tfstate"
+    key                  = "terraform.tfstate"
   }
 }
