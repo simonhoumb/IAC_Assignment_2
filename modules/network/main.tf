@@ -4,13 +4,24 @@ resource "azurerm_network_security_group" "nsg" {
   resource_group_name = var.rg_name
   security_rule {
     name                       = "tcp-inbound-p22"
-    priority                   = 100
+    priority                   = 1022
     direction                  = "Inbound"
     access                     = "Allow"
     protocol                   = "Tcp"
     source_port_range          = "*"
     destination_port_range     = "22"
-    source_address_prefix      = var.source_address_prefix_p22
+    source_address_prefix      = var.source_address_prefix
+    destination_address_prefix = "*"
+  }
+  security_rule {
+    name                       = "tcp-inbound-p80"
+    priority                   = 1080
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "80"
+    source_address_prefix      = var.source_address_prefix
     destination_address_prefix = "*"
   }
   tags = local.common_tags
