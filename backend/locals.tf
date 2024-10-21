@@ -1,7 +1,7 @@
 locals {
   common_tags = {
     company     = "OperaTerraAS"
-    project     = "oppg1"
+    project     = "oppg2"
     owner       = "simonhou"
     environment = "prod"
     backend     = "backend"
