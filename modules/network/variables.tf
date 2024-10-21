@@ -16,6 +16,12 @@ variable "nsg_name" {
   default     = "nsg-${local.common_tags.owner}-${local.common_tags.project}-${local.common_tags.environment}-${var.location}"
 }
 
+variable "source_address_prefix_p22" {
+  type        = string
+  description = "Allowed Source Address Prefix to connect"
+  default     = "129.241.0.20"
+}
+
 variable "vnet_name" {
   type        = string
   description = "Name of Virtual Network."
