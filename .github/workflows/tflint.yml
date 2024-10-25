@@ -36,4 +36,4 @@ jobs:
       # Runs 'tflint'
       - name: Run tflint
         id: tflint
-        run: tflint -f compact
+        run: tflint /recursive
