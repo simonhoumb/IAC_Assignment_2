@@ -21,6 +21,15 @@ resource "azurerm_mssql_server" "mssqlserver" {
   tags                         = local.common_tags
 }
 
+resource "azurerm_mssql_server_extended_auditing_policy" "extended_auditing_policy" {
+  server_id                               = azurerm_mssql_server.mssqlserver.id
+  storage_endpoint                        = var.storage_account_primary_blob_endpoint
+  storage_account_access_key              = var.storage_account_primary_access_key
+  storage_account_access_key_is_secondary = true
+  retention_in_days                       = 6
+  depends_on                              = [azurerm_mssql_server.mssqlserver]
+}
+
 resource "azurerm_mssql_database" "mssqldb" {
   name         = "${var.mssqldb_prefix}${local.naming_suffix_seperated}"
   server_id    = azurerm_mssql_server.mssqlserver.id
@@ -30,6 +39,7 @@ resource "azurerm_mssql_database" "mssqldb" {
   sku_name     = "S0"
   enclave_type = "VBS"
   tags         = local.common_tags
+  depends_on   = [azurerm_mssql_server.mssqlserver]
 
   # prevent the possibility of accidental data loss
   lifecycle {

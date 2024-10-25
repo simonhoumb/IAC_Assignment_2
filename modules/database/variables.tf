@@ -28,3 +28,17 @@ variable "mssqlserver_admin_username" {
   default     = ""
   sensitive   = true
 }
+
+variable "storage_account_primary_blob_endpoint" {
+  type        = string
+  description = "Primary blob endpoint of storage account."
+  default     = ""
+  sensitive   = true
+}
+
+variable "storage_account_primary_access_key" {
+  type        = string
+  description = "Primary access key of storage account."
+  default     = ""
+  sensitive   = true
+}

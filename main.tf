@@ -14,15 +14,21 @@ module "app" {
   database_url              = module.database.database_url
   storage_connection_string = module.storage.storage_connection_string
   subnet_id                 = module.network.subnet_id
+
+  depends_on = [module.database, module.network, module.storage]
 }
 
 module "database" {
-  source                     = "./modules/database"
-  rg_name                    = azurerm_resource_group.rg.name
-  location                   = var.location
-  mssqlserver_prefix         = var.mssqlserver_prefix
-  mssqldb_prefix             = var.mssqldb_prefix
-  mssqlserver_admin_username = var.mssqlserver_admin_username
+  source                                = "./modules/database"
+  rg_name                               = azurerm_resource_group.rg.name
+  location                              = var.location
+  mssqlserver_prefix                    = var.mssqlserver_prefix
+  mssqldb_prefix                        = var.mssqldb_prefix
+  mssqlserver_admin_username            = var.mssqlserver_admin_username
+  storage_account_primary_access_key    = module.storage.storage_account_primary_access_key
+  storage_account_primary_blob_endpoint = module.storage.storage_account_primary_blob_endpoint
+
+  depends_on = [module.storage]
 }
 
 module "network" {
