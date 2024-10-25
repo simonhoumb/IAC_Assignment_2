@@ -11,14 +11,15 @@ resource "random_string" "username" {
 
 
 resource "azurerm_mssql_server" "mssqlserver" {
-  name                         = "${var.mssqlserver_prefix}${local.naming_suffix_seperated}"
-  resource_group_name          = var.rg_name
-  location                     = var.location
-  version                      = "12.0"
-  administrator_login          = var.mssqlserver_admin_username == "" ? random_string.username.result : var.mssqlserver_admin_username
-  administrator_login_password = random_password.password.result
-  minimum_tls_version          = "1.2"
-  tags                         = local.common_tags
+  name                          = "${var.mssqlserver_prefix}${local.naming_suffix_seperated}"
+  resource_group_name           = var.rg_name
+  location                      = var.location
+  version                       = "12.0"
+  administrator_login           = var.mssqlserver_admin_username == "" ? random_string.username.result : var.mssqlserver_admin_username
+  administrator_login_password  = random_password.password.result
+  minimum_tls_version           = "1.2"
+  public_network_access_enabled = false
+  tags                          = local.common_tags
 }
 
 resource "azurerm_mssql_server_extended_auditing_policy" "extended_auditing_policy" {
@@ -26,7 +27,7 @@ resource "azurerm_mssql_server_extended_auditing_policy" "extended_auditing_poli
   storage_endpoint                        = var.storage_account_primary_blob_endpoint
   storage_account_access_key              = var.storage_account_primary_access_key
   storage_account_access_key_is_secondary = true
-  retention_in_days                       = 6
+  retention_in_days                       = 90
   depends_on                              = [azurerm_mssql_server.mssqlserver]
 }
 
