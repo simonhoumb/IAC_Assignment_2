@@ -36,4 +36,4 @@ jobs:
       # Runs 'tflint'
       - name: Run tflint
         id: tflint
-        run: tflint /recursive
+        run: tflint --recursive --minimum-failure-severity error
