@@ -1,7 +1,7 @@
 variable "rg_name" {
   type        = string
   description = "Name of Resource Group."
-  default     = "rg-${local.common_tags.owner}-${local.common_tags.project}-${local.common_tags.environment}-${var.location}"
+  default     = "rg"
 }
 
 variable "location" {
@@ -10,21 +10,21 @@ variable "location" {
   default     = "westeurope"
 }
 
-variable "mssqlserver_name" {
+variable "mssqlserver_prefix" {
   type        = string
   description = "Name of MSSQL Server."
-  default     = "mssqlserver-${local.common_tags.owner}-${local.common_tags.project}-${local.common_tags.environment}-${var.location}"
+  default     = "mssqlserver"
 }
 
-variable "mssqldb_name" {
+variable "mssqldb_prefix" {
   type        = string
   description = "Name of MSSQL Database name."
-  default     = "mssqldb-${local.common_tags.owner}-${local.common_tags.project}-${local.common_tags.environment}-${var.location}"
+  default     = "mssqldb"
 }
 
 variable "mssqlserver_admin_username" {
   type        = string
   description = "Username of MSSQL Server Admin."
-  default     = "adminuser"
+  default     = ""
   sensitive   = true
 }

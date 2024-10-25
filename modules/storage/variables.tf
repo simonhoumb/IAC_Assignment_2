@@ -1,7 +1,7 @@
 variable "rg_name" {
   type        = string
   description = "Name of Resource Group."
-  default     = "rg-${local.common_tags.owner}-${local.common_tags.project}-${local.common_tags.environment}-${var.location}"
+  default     = "rg"
 }
 
 variable "location" {
@@ -10,10 +10,10 @@ variable "location" {
   default     = "westeurope"
 }
 
-variable "sa_name" {
+variable "sa_prefix" {
   type        = string
   description = "Name of Storage Account."
-  default     = "sa${local.common_tags.owner}${local.common_tags.project}${local.common_tags.environment}${var.location}"
+  default     = "sa"
 }
 
 variable "image_container_instance_count" {

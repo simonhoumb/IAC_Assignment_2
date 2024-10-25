@@ -1,7 +1,7 @@
 variable "rg_name" {
   type        = string
   description = "Name of Resource Group."
-  default     = "rg-${local.common_tags.owner}-${local.common_tags.project}-${local.common_tags.environment}-${var.location}"
+  default     = "rg"
 }
 
 variable "location" {
@@ -10,10 +10,10 @@ variable "location" {
   default     = "westeurope"
 }
 
-variable "nsg_name" {
+variable "nsg_prefix" {
   type        = string
   description = "Name of Network Security Group."
-  default     = "nsg-${local.common_tags.owner}-${local.common_tags.project}-${local.common_tags.environment}-${var.location}"
+  default     = "nsg"
 }
 
 variable "source_address_prefix" {
@@ -22,20 +22,20 @@ variable "source_address_prefix" {
   default     = "129.241.0.20"
 }
 
-variable "vnet_name" {
+variable "vnet_prefix" {
   type        = string
   description = "Name of Virtual Network."
-  default     = "vnet-${local.common_tags.owner}-${local.common_tags.project}-${local.common_tags.environment}-${var.location}"
+  default     = "vnet"
 }
 
-variable "subnet_name" {
+variable "subnet_prefix" {
   type        = string
   description = "Name of Subnet."
-  default     = "subnet-${local.common_tags.owner}-${local.common_tags.project}-${local.common_tags.environment}-${var.location}"
+  default     = "subnet"
 }
 
-variable "lb_name" {
+variable "lb_prefix" {
   type        = string
   description = "Name of Load Balancer."
-  default     = "lb-${local.common_tags.owner}-${local.common_tags.project}-${local.common_tags.environment}-${var.location}"
+  default     = "lb"
 }

@@ -1,7 +1,7 @@
 variable "rg_name" {
   type        = string
   description = "Name of Resource Group."
-  default     = "rg-${local.common_tags.owner}-${local.common_tags.project}-${local.common_tags.environment}-${var.location}"
+  default     = "rg"
 }
 
 variable "location" {
@@ -10,16 +10,16 @@ variable "location" {
   default     = "westeurope"
 }
 
-variable "svc_plan_name" {
+variable "svc_plan_prefix" {
   type        = string
   description = "Name of Service Plan."
-  default     = "svcplan-${local.common_tags.owner}-${local.common_tags.project}-${local.common_tags.environment}-${var.location}"
+  default     = "svcplan"
 }
 
-variable "web_app_name" {
+variable "web_app_prefix" {
   type        = string
   description = "Name of Web App."
-  default     = "web-${local.common_tags.owner}-${local.common_tags.project}-${local.common_tags.environment}-${var.location}"
+  default     = "web"
 }
 
 variable "web_app_instance_count" {
@@ -32,4 +32,22 @@ variable "web_app_worker_count" {
   type        = number
   description = "Number of Web App Workers."
   default     = 1
+}
+
+variable "database_url" {
+  type        = string
+  description = "URL of web app database."
+  default     = ""
+}
+
+variable "storage_connection_string" {
+  type        = string
+  description = "Primary connection string of storage account."
+  default     = ""
+}
+
+variable "subnet_id" {
+  type        = string
+  description = "ID of subnet."
+  default     = ""
 }
