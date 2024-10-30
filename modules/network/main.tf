@@ -3,17 +3,6 @@ resource "azurerm_network_security_group" "nsg" {
   location            = var.location
   resource_group_name = var.rg_name
   security_rule {
-    name                       = "tcp-inbound-p22"
-    priority                   = 1022
-    direction                  = "Inbound"
-    access                     = "Allow"
-    protocol                   = "Tcp"
-    source_port_range          = "*"
-    destination_port_range     = "22"
-    source_address_prefix      = var.source_address_prefix
-    destination_address_prefix = "*"
-  }
-  security_rule {
     name                       = "tcp-inbound-p443"
     priority                   = 1043
     direction                  = "Inbound"
