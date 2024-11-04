@@ -92,6 +92,12 @@ jobs:
         working-directory: ${{env.WORKING_DIR}}
         id: plan
         run: terraform plan -out="${{env.TF_WORKSPACE}}.tfplan" -var="subscription_id=${{secrets.AZURE_SUBSCRIPTION_ID}}"
+
+      - uses: actions/cache@v3
+        id: cache
+        with:
+          key: "${{env.TF_WORKSPACE}}-47172c1yhd1c2ny8g1d73gde7392r.tfplan"
+          path: ${{env.WORKING_DIR}}/${{env.TF_WORKSPACE}}.tfplan
   apply:
     needs: [plan]
     runs-on: ubuntu-22.04
@@ -101,6 +107,12 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+
+      - uses: actions/cache/restore@v3
+        id: restore
+        with:
+          key: "${{env.TF_WORKSPACE}}-47172c1yhd1c2ny8g1d73gde7392r.tfplan"
+          path: ${{env.WORKING_DIR}}/${{env.TF_WORKSPACE}}.tfplan
 
       # Applies the Terraform plan
       - name: Terraform apply
