@@ -114,6 +114,12 @@ jobs:
           key: "${{env.TF_WORKSPACE}}-47172c1yhd1c2ny8g1d73gde7392r.tfplan"
           path: ${{env.WORKING_DIR}}/${{env.TF_WORKSPACE}}.tfplan
 
+      # Initialize Terraform
+      - name: Terraform init
+        working-directory: ${{env.WORKING_DIR}}
+        id: init
+        run: terraform init
+
       # Applies the Terraform plan
       - name: Terraform apply
         working-directory: ${{env.WORKING_DIR}}
