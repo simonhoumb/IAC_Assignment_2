@@ -91,7 +91,7 @@ jobs:
       - name: Terraform plan
         working-directory: ${{env.WORKING_DIR}}
         id: plan
-        run: terraform plan -out="${{env.TF_WORKSPACE}}.tfplan -var-file=terraform.${{env.TF_WORKSPACE}}.tfvars"
+        run: terraform plan -out="${{env.TF_WORKSPACE}}.tfplan -var "subscription_id=${{secrets.AZURE_SUBSCRIPTION_ID}}"
   apply:
     needs: [plan]
     runs-on: ubuntu-22.04
