@@ -1,0 +1,108 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Production Workflow
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "main (prod)" branch
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  linting:
+    name: "Linting"
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: terraform-linters/setup-tflint@v4
+        name: Setup TFLint
+        with:
+          tflint_version: v0.53.0
+
+      # Shows tflint version
+      - name: Show version
+        id: version
+        run: tflint --version
+
+      # Runs 'tflint'
+      - name: Run tflint
+        id: tflint
+        run: tflint --recursive --minimum-failure-severity error
+  tfsec:
+    name: tfsec
+    runs-on: ubuntu-22.04
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: tfsec
+        uses: aquasecurity/tfsec-action@v1.0.0
+        with: 
+          # Excludes all LOW severities.
+          additional_args: --minimum-severity MEDIUM  
+  validate:
+    name: "Validate"
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+
+      # Runs 'terraform init'
+      - name: Terraform init
+        working-directory: ./deployments
+        id: init
+        run: terraform init
+        
+      # Runs 'terraform validate'
+      - name: Terraform validate
+        working-directory: ./deployments
+        id: validate
+        run: terraform validate
+  plan:
+    runs-on: ubuntu-22.04
+    name: "Terraform Plan"
+    env:
+      ARM_CLIENT_ID: ${{secrets.AZURE_CLIENT_ID}}
+      ARM_CLIENT_SECRET: ${{secrets.AZURE_CLIENT_SECRET}}
+      ARM_SUBSCRIPTION_ID: ${{secrets.AZURE_SUBSCRIPTION_ID}}
+      ARM_TENANT_ID: ${{secrets.AZURE_TENANT_ID}}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # Initialize Terraform
+      - name: Terraform init
+        working-directory: ./deployments
+        id: init
+        run: terraform init
+
+      # Plans the Terraform project
+      - name: Terraform plan
+        working-directory: ./deployments
+        id: plan
+        run: terraform plan -out="${{github.ref_name}}.tfplan"
+  apply:
+    runs-on: ubuntu-22.04
+    environment: ${{github.ref_name}}
+  
+    name: "Terraform Apply"
+    env:
+      ARM_CLIENT_ID: ${{secrets.AZURE_CLIENT_ID}}
+      ARM_CLIENT_SECRET: ${{secrets.AZURE_CLIENT_SECRET}}
+      ARM_SUBSCRIPTION_ID: ${{secrets.AZURE_SUBSCRIPTION_ID}}
+      ARM_TENANT_ID: ${{secrets.AZURE_TENANT_ID}}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # Applies the Terraform plan
+      - name: Terraform apply
+        working-directory: ./deployments
+        id: apply
+        run: terraform apply -auto-approve "${{github.ref_name}}.tfplan"    
