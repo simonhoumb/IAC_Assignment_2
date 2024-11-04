@@ -12,8 +12,8 @@ terraform {
   }
 
   backend "azurerm" {
-    resource_group_name  = "rg-simonhou-backend-oppg2-prod-westeurope"
-    storage_account_name = "sabeoppg2prodp879"
+    resource_group_name  = "rg-simonhou-backend"
+    storage_account_name = "sasimonhoubackend86yd"
     container_name       = "tfstate"
     key                  = "terraform.tfstate"
   }

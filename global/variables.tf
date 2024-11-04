@@ -14,7 +14,7 @@ variable "backend_location" {
 variable "sa_backend_prefix" {
   type        = string
   description = "Name of Backend Storage Account"
-  default     = "sabe"
+  default     = "sa"
 }
 
 variable "sa_backend_container_name" {
