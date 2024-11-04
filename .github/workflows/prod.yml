@@ -101,7 +101,7 @@ jobs:
   apply:
     needs: [plan]
     runs-on: ubuntu-22.04
-    environment: ${{github.ref_name}}
+    environment: prod
 
     name: "Terraform Apply"
 
