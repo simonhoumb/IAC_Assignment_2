@@ -1,5 +1,5 @@
 resource "azurerm_resource_group" "rg_backend" {
-  name     = "${var.rg_backend_name}-${local.common_tags.owner}-${local.common_tags.backend}-${local.common_tags.project}-${local.common_tags.environment}-${var.backend_location}"
+  name     = "${var.rg_backend_prefix}${local.naming_suffix_seperated}"
   location = var.backend_location
   tags     = local.common_tags
 }
@@ -11,7 +11,7 @@ resource "random_string" "random_string" {
 }
 
 resource "azurerm_storage_account" "sa_backend" {
-  name                     = "${lower(var.sa_backend_name)}${local.common_tags.project}${local.common_tags.environment}${random_string.random_string.result}"
+  name                     = "${lower(var.sa_backend_prefix)}${local.naming_suffix_not_seperated}${random_string.random_string.result}"
   resource_group_name      = azurerm_resource_group.rg_backend.name
   location                 = azurerm_resource_group.rg_backend.location
   account_tier             = "Standard"

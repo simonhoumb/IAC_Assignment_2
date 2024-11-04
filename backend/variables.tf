@@ -1,5 +1,5 @@
 
-variable "rg_backend_name" {
+variable "rg_backend_prefix" {
   type        = string
   description = "Name of Backend Resource Group"
   default     = "rg"
@@ -11,7 +11,7 @@ variable "backend_location" {
   default     = "westeurope"
 }
 
-variable "sa_backend_name" {
+variable "sa_backend_prefix" {
   type        = string
   description = "Name of Backend Storage Account"
   default     = "sabe"
