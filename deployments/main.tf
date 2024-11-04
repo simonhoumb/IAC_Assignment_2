@@ -4,7 +4,7 @@ resource "azurerm_resource_group" "rg" {
 }
 
 module "app" {
-  source                    = "./modules/app"
+  source                    = "../modules/app"
   rg_name                   = azurerm_resource_group.rg.name
   location                  = var.location
   svc_plan_prefix           = var.svc_plan_prefix
@@ -19,7 +19,7 @@ module "app" {
 }
 
 module "database" {
-  source                                = "./modules/database"
+  source                                = "../modules/database"
   rg_name                               = azurerm_resource_group.rg.name
   location                              = var.location
   mssqlserver_prefix                    = var.mssqlserver_prefix
@@ -32,7 +32,7 @@ module "database" {
 }
 
 module "network" {
-  source                = "./modules/network"
+  source                = "../modules/network"
   rg_name               = azurerm_resource_group.rg.name
   location              = var.location
   nsg_prefix            = var.nsg_prefix
@@ -43,7 +43,7 @@ module "network" {
 }
 
 module "storage" {
-  source                         = "./modules/storage"
+  source                         = "../modules/storage"
   rg_name                        = azurerm_resource_group.rg.name
   location                       = var.location
   sa_prefix                      = var.sa_prefix
