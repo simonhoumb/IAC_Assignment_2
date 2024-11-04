@@ -96,7 +96,7 @@ jobs:
       - uses: actions/cache@v3
         id: cache
         with:
-          key: "${{env.TF_WORKSPACE}}-47172c1yhd1c2ny8g1d73gde7392r.tfplan"
+          key: "${{env.TF_WORKSPACE}}-${{github.run_id}}-${{github.run_number}}.tfplan"
           path: ${{env.WORKING_DIR}}/${{env.TF_WORKSPACE}}.tfplan
 
   apply:
@@ -112,7 +112,7 @@ jobs:
       - uses: actions/cache/restore@v3
         id: restore
         with:
-          key: "${{env.TF_WORKSPACE}}-47172c1yhd1c2ny8g1d73gde7392r.tfplan"
+          key: "${{env.TF_WORKSPACE}}-${{github.run_id}}-${{github.run_number}}.tfplan"
           path: ${{env.WORKING_DIR}}/${{env.TF_WORKSPACE}}.tfplan
 
       # Initialize Terraform
