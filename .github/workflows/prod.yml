@@ -70,6 +70,7 @@ jobs:
         id: validate
         run: terraform validate
   plan:
+    needs: [validate]
     runs-on: ubuntu-22.04
     name: "Terraform Plan"
     env:
@@ -93,6 +94,7 @@ jobs:
         id: plan
         run: terraform plan -out="${{github.ref_name}}.tfplan"
   apply:
+    needs: [plan]
     runs-on: ubuntu-22.04
     environment: ${{github.ref_name}}
 
