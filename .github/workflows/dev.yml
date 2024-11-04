@@ -92,7 +92,7 @@ jobs:
       - name: Terraform plan
         working-directory: ./deployments
         id: plan
-        run: terraform plan -out="${{github.ref_name}}.tfplan"
+        run: terraform plan -out="${{github.ref_name}}.tfplan -var-file=terraform.${{github.ref_name}}.tfvars"
   apply:
     needs: [plan]
     runs-on: ubuntu-22.04
