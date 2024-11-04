@@ -6,9 +6,9 @@ name: Production Workflow
 on:
   # Triggers the workflow on push or pull request events but only for the "main (prod)" branch
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -44,12 +44,17 @@ jobs:
 
       - name: tfsec
         uses: aquasecurity/tfsec-action@v1.0.0
-        with: 
+        with:
           # Excludes all LOW severities.
-          additional_args: --minimum-severity MEDIUM  
+          additional_args: --minimum-severity MEDIUM
   validate:
     name: "Validate"
     runs-on: ubuntu-22.04
+    env:
+      ARM_CLIENT_ID: ${{secrets.AZURE_CLIENT_ID}}
+      ARM_CLIENT_SECRET: ${{secrets.AZURE_CLIENT_SECRET}}
+      ARM_SUBSCRIPTION_ID: ${{secrets.AZURE_SUBSCRIPTION_ID}}
+      ARM_TENANT_ID: ${{secrets.AZURE_TENANT_ID}}
     steps:
       - uses: actions/checkout@v4
 
@@ -58,7 +63,7 @@ jobs:
         working-directory: ./deployments
         id: init
         run: terraform init
-        
+
       # Runs 'terraform validate'
       - name: Terraform validate
         working-directory: ./deployments
@@ -90,7 +95,7 @@ jobs:
   apply:
     runs-on: ubuntu-22.04
     environment: ${{github.ref_name}}
-  
+
     name: "Terraform Apply"
     env:
       ARM_CLIENT_ID: ${{secrets.AZURE_CLIENT_ID}}
@@ -105,4 +110,4 @@ jobs:
       - name: Terraform apply
         working-directory: ./deployments
         id: apply
-        run: terraform apply -auto-approve "${{github.ref_name}}.tfplan"    
+        run: terraform apply -auto-approve "${{github.ref_name}}.tfplan"
