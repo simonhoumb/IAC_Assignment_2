@@ -38,4 +38,4 @@ jobs:
       - name: Terraform Destroy
         working-directory: ${{env.WORKING_DIR}}
         id: destroy
-        run: terraform destroy
+        run: terraform destroy -auto-approve -var="subscription_id=${{secrets.AZURE_SUBSCRIPTION_ID}}"
