@@ -93,11 +93,11 @@ jobs:
         id: init
         run: terraform init
 
-        # Lists the workspace
-      - name: List Terraform Workspace
+        # Selects the workspace
+      - name: Terraform workspace
         working-directory: ${{env.WORKING_DIR}}
-        id: list_workspace
-        run: terraform workspace list
+        id: select_workspace
+        run: terraform workspace new "${{ env.WORKSPACE }}" || terraform workspace select "${{ env.WORKSPACE }}"
 
       # Plans the Terraform project
       - name: Terraform plan
