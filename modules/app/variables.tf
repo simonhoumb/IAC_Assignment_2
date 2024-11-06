@@ -44,10 +44,30 @@ variable "storage_connection_string" {
   type        = string
   description = "Primary connection string of storage account."
   default     = ""
+  sensitive   = true
 }
 
 variable "subnet_id" {
   type        = string
   description = "ID of subnet."
+  default     = ""
+}
+
+variable "storage_account_primary_access_key" {
+  type        = string
+  description = "Primary access key of storage account."
+  default     = ""
+  sensitive   = true
+}
+
+variable "storage_account_name" {
+  type        = string
+  description = "Name of storage account."
+  default     = ""
+}
+
+variable "storage_container_name" {
+  type        = string
+  description = "Name of storage container."
   default     = ""
 }

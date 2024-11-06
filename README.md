@@ -1,4 +1,4 @@
-# Infrastructure as Code - Assignment 1
+# Infrastructure as Code - Assignment 2
 
 ## Configuration
 
@@ -12,13 +12,13 @@
 
 ## Deployment
 
-1. Deploy from your terminal of choice and make sure to be placed in the root directory (./simonhou-oppg1/).
-2. `terraform -chdir=backend init`
-3. `terraform -chdir=backend plan -out="backend.tfplan"`
-4. `terraform -chdir=backend apply "backend.tfplan"`
-5. `terraform init`
-6. `terraform plan -out="main.tfplan"`
-7. `terraform apply "main.tfplan"`
+1. Deploy from your terminal of choice and make sure to be placed in the root directory (./simonhou-oppg2/).
+2. `terraform -chdir=global init`
+3. `terraform -chdir=global plan -out="backend.tfplan"`
+4. `terraform -chdir=global apply "backend.tfplan"`
+5. `terraform -chdir=deployments init`
+6. `terraform -chdir=deployments plan -out="main.tfplan"`
+7. `terraform -chdir=deployments apply "main.tfplan"`
 
 ## Modules
 

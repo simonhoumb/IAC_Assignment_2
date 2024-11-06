@@ -14,11 +14,25 @@ resource "azurerm_linux_web_app" "web_app" {
   count                         = var.web_app_instance_count
   public_network_access_enabled = true
   https_only                    = true
+  virtual_network_subnet_id = var.subnet_id
   tags                          = local.common_tags
 
+  connection_string {
+    name = "DATABASE_URL"
+    type = "MySQL"
+    value = var.database_url  
+  }
+
+
+  storage_account {
+    name = var.storage_account_name
+    type = "AzureBlob"
+    access_key = var.storage_account_primary_access_key
+    account_name = var.storage_account_name
+    share_name = var.storage_container_name
+  }
+
   app_settings = {
-    "DATABASE_URL"                   = var.database_url
-    "STORAGE_CONNECTION_STRING"      = var.storage_connection_string
     "SCM_DO_BUILD_DURING_DEPLOYMENT" = true
   }
 

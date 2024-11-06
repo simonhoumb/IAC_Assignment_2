@@ -4,16 +4,19 @@ resource "azurerm_resource_group" "rg" {
 }
 
 module "app" {
-  source                    = "../modules/app"
-  rg_name                   = azurerm_resource_group.rg.name
-  location                  = var.location
-  svc_plan_prefix           = var.svc_plan_prefix
-  web_app_prefix            = var.web_app_prefix
-  web_app_instance_count    = var.web_app_instance_count
-  web_app_worker_count      = var.web_app_worker_count
-  database_url              = module.database.database_url
-  storage_connection_string = module.storage.storage_connection_string
-  subnet_id                 = module.network.subnet_id
+  source                             = "../modules/app"
+  rg_name                            = azurerm_resource_group.rg.name
+  location                           = var.location
+  svc_plan_prefix                    = var.svc_plan_prefix
+  web_app_prefix                     = var.web_app_prefix
+  web_app_instance_count             = var.web_app_instance_count
+  web_app_worker_count               = var.web_app_worker_count
+  database_url                       = module.database.database_url
+  storage_connection_string          = module.storage.storage_connection_string
+  subnet_id                          = module.network.subnet_id
+  storage_account_primary_access_key = module.storage.storage_account_primary_access_key
+  storage_account_name               = module.storage.storage_account_name
+  storage_container_name             = module.storage.storage_container_name
 
   depends_on = [module.database, module.network, module.storage]
 }
