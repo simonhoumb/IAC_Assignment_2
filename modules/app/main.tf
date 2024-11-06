@@ -18,7 +18,7 @@ resource "azurerm_linux_web_app" "web_app" {
 
   connection_string {
     name  = "DATABASE_URL"
-    type  = "MySQL"
+    type  = "MySql"
     value = var.database_url
   }
 
