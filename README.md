@@ -46,6 +46,18 @@ Azure Storage Account and container for product images.
 
 The backend needs to be deployed before the main infrastructure. It stores all tfstate files.
 
+## Github Workflow Files
+
+One for each environment (all require a review before applying infrastructure):
+
+- Development (**dev.yml**) used for the dev branch
+- Staging (**stage.yml**) used for the stage branch
+- Production (**prod.yml**) used for the main branch
+
+Destroy Infrastructure (**destroy.yml**)
+
+- Only able to run manually through GitHub
+
 ## Known Issues
 
 ## Future Implementation
