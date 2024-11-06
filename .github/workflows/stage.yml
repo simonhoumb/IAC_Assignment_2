@@ -14,7 +14,7 @@ on:
   workflow_dispatch:
 
 env:
-  WORKSPACE: ${{ github.ref == 'refs/heads/main' && 'prod' || github.ref_name }}
+  WORKSPACE: ${{ github.event_name == 'pull_request' && (github.base_ref == 'main' && 'prod' || github.head_ref) || (github.ref == 'refs/heads/main' && 'prod' || github.ref_name) }}
   WORKING_DIR: "./deployments"
   ARM_CLIENT_ID: ${{secrets.AZURE_CLIENT_ID}}
   ARM_CLIENT_SECRET: ${{secrets.AZURE_CLIENT_SECRET}}
