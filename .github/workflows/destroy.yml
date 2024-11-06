@@ -1,0 +1,41 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Destroy Infrastructure
+
+# Controls when the workflow will run
+on:
+  # Only able to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+env:
+  WORKSPACE: ${{ github.ref == 'refs/heads/main' && 'prod' || github.ref_name }}
+  WORKING_DIR: "./deployments"
+  ARM_CLIENT_ID: ${{secrets.AZURE_CLIENT_ID}}
+  ARM_CLIENT_SECRET: ${{secrets.AZURE_CLIENT_SECRET}}
+  ARM_SUBSCRIPTION_ID: ${{secrets.AZURE_SUBSCRIPTION_ID}}
+  ARM_TENANT_ID: ${{secrets.AZURE_TENANT_ID}}
+
+jobs:
+  destroy:
+    name: "Terraform Destroy"
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+
+      # Initialize Terraform
+      - name: Terraform init
+        working-directory: ${{env.WORKING_DIR}}
+        id: init
+        run: terraform init
+
+      # Selects the workspace
+      - name: Terraform workspace
+        working-directory: ${{env.WORKING_DIR}}
+        id: select_workspace
+        run: terraform workspace new "${{ env.WORKSPACE }}" || terraform workspace select "${{ env.WORKSPACE }}"
+
+      # Destroy infrastructure in the current workspace
+      - name: Terraform Destroy
+        working-directory: ${{env.WORKING_DIR}}
+        id: destroy
+        run: terraform destroy
