@@ -24,6 +24,7 @@ env:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   linting:
+    if: github.ref == 'refs/heads/dev'
     name: "Linting"
     runs-on: ubuntu-22.04
     steps:
@@ -44,6 +45,7 @@ jobs:
         id: tflint
         run: tflint --recursive --minimum-failure-severity error
   tfsec:
+    if: github.ref == 'refs/heads/dev'
     name: tfsec
     runs-on: ubuntu-22.04
 
@@ -56,6 +58,7 @@ jobs:
           # Excludes all LOW severities.
           additional_args: --minimum-severity MEDIUM
   validate:
+    if: github.ref == 'refs/heads/dev'
     name: "Validate"
     runs-on: ubuntu-22.04
 
@@ -80,6 +83,7 @@ jobs:
         id: validate
         run: terraform validate
   plan:
+    if: github.ref == 'refs/heads/dev'
     needs: [validate]
     runs-on: ubuntu-22.04
     name: "Terraform Plan"
@@ -112,6 +116,7 @@ jobs:
           path: ${{env.WORKING_DIR}}/${{env.WORKSPACE}}.tfplan
 
   apply:
+    if: github.ref == 'refs/heads/dev'
     needs: [plan]
     runs-on: ubuntu-22.04
     environment: dev
