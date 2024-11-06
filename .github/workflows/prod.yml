@@ -14,7 +14,7 @@ on:
   workflow_dispatch:
 
 env:
-  TF_WORKSPACE: "prod"
+  TF_WORKSPACE: ${{ github.ref == 'refs/heads/main' && 'prod' || github.ref_name }}
   WORKING_DIR: "./deployments"
   ARM_CLIENT_ID: ${{secrets.AZURE_CLIENT_ID}}
   ARM_CLIENT_SECRET: ${{secrets.AZURE_CLIENT_SECRET}}
@@ -80,6 +80,18 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+
+      # Selects the workspace
+      - name: Select Terraform Workspace
+        working-directory: ${{env.WORKING_DIR}}
+        id: select_workspace
+        run: terraform workspace select ${{env.TF_WORKSPACE}} || terraform workspace new ${{env.TF_WORKSPACE}}
+
+      # Lists the workspace
+      - name: List Terraform Workspace
+        working-directory: ${{env.WORKING_DIR}}
+        id: list_workspace
+        run: terraform workspace list
 
       # Initialize Terraform
       - name: Terraform init
