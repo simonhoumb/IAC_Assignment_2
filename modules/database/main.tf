@@ -41,9 +41,4 @@ resource "azurerm_mssql_database" "mssqldb" {
   enclave_type = "VBS"
   tags         = local.common_tags
   depends_on   = [azurerm_mssql_server.mssqlserver]
-
-  # prevent the possibility of accidental data loss
-  lifecycle {
-    prevent_destroy = true
-  }
 }
