@@ -33,7 +33,7 @@ resource "azurerm_storage_account" "sa" {
 }
 
 resource "azurerm_storage_container" "image_container" {
-  name                  = "product_images"
+  name                  = "product-images"
   storage_account_name  = azurerm_storage_account.sa.name
   container_access_type = "private"
 }
