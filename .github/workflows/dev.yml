@@ -133,6 +133,12 @@ jobs:
         id: init
         run: terraform init
 
+      # Selects the workspace
+      - name: Terraform workspace
+        working-directory: ${{env.WORKING_DIR}}
+        id: select_workspace
+        run: terraform workspace new "${{ env.WORKSPACE }}" || terraform workspace select "${{ env.WORKSPACE }}"
+
       # Applies the Terraform plan
       - name: Terraform apply
         working-directory: ${{env.WORKING_DIR}}
