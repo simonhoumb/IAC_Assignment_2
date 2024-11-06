@@ -14,7 +14,7 @@ on:
   workflow_dispatch:
 
 env:
-  TF_WORKSPACE: ${{ github.ref == 'refs/heads/main' && 'prod' || github.ref_name }}
+  WORKSPACE: ${{ github.ref == 'refs/heads/main' && 'prod' || github.ref_name }}
   WORKING_DIR: "./deployments"
   ARM_CLIENT_ID: ${{secrets.AZURE_CLIENT_ID}}
   ARM_CLIENT_SECRET: ${{secrets.AZURE_CLIENT_SECRET}}
@@ -72,7 +72,7 @@ jobs:
       - name: Terraform workspace
         working-directory: ${{env.WORKING_DIR}}
         id: select_workspace
-        run: terraform workspace new "${{ env.TF_WORKSPACE }}" || terraform workspace select "${{ env.TF_WORKSPACE }}"
+        run: terraform workspace new "${{ env.WORKSPACE }}" || terraform workspace select "${{ env.WORKSPACE }}"
 
       # Runs 'terraform validate'
       - name: Terraform validate
@@ -103,13 +103,13 @@ jobs:
       - name: Terraform plan
         working-directory: ${{env.WORKING_DIR}}
         id: plan
-        run: terraform plan -out="${{env.TF_WORKSPACE}}.tfplan" -var="subscription_id=${{secrets.AZURE_SUBSCRIPTION_ID}}"
+        run: terraform plan -out="${{env.WORKSPACE}}.tfplan" -var="subscription_id=${{secrets.AZURE_SUBSCRIPTION_ID}}"
 
       - uses: actions/cache@v3
         id: cache
         with:
-          key: "${{env.TF_WORKSPACE}}-${{github.run_id}}-${{github.run_number}}.tfplan"
-          path: ${{env.WORKING_DIR}}/${{env.TF_WORKSPACE}}.tfplan
+          key: "${{env.WORKSPACE}}-${{github.run_id}}-${{github.run_number}}.tfplan"
+          path: ${{env.WORKING_DIR}}/${{env.WORKSPACE}}.tfplan
 
   apply:
     needs: [plan]
@@ -124,8 +124,8 @@ jobs:
       - uses: actions/cache/restore@v3
         id: restore
         with:
-          key: "${{env.TF_WORKSPACE}}-${{github.run_id}}-${{github.run_number}}.tfplan"
-          path: ${{env.WORKING_DIR}}/${{env.TF_WORKSPACE}}.tfplan
+          key: "${{env.WORKSPACE}}-${{github.run_id}}-${{github.run_number}}.tfplan"
+          path: ${{env.WORKING_DIR}}/${{env.WORKSPACE}}.tfplan
 
       # Initialize Terraform
       - name: Terraform init
@@ -137,4 +137,4 @@ jobs:
       - name: Terraform apply
         working-directory: ${{env.WORKING_DIR}}
         id: apply
-        run: terraform apply -auto-approve "${{env.TF_WORKSPACE}}.tfplan"
+        run: terraform apply -auto-approve "${{env.WORKSPACE}}.tfplan"
