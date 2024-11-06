@@ -14,7 +14,7 @@ on:
   workflow_dispatch:
 
 env:
-  TF_WORKSPACE: "dev"
+  TF_WORKSPACE: ${{ github.ref == 'refs/heads/main' && 'prod' || github.ref_name }}
   WORKING_DIR: "./deployments"
   ARM_CLIENT_ID: ${{secrets.AZURE_CLIENT_ID}}
   ARM_CLIENT_SECRET: ${{secrets.AZURE_CLIENT_SECRET}}
@@ -86,6 +86,12 @@ jobs:
         working-directory: ${{env.WORKING_DIR}}
         id: init
         run: terraform init
+
+        # Lists the workspace
+      - name: List Terraform Workspace
+        working-directory: ${{env.WORKING_DIR}}
+        id: workspace
+        run: terraform workspace list
 
       # Plans the Terraform project
       - name: Terraform plan
