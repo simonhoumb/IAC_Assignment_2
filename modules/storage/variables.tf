@@ -15,9 +15,3 @@ variable "sa_prefix" {
   description = "Name of Storage Account."
   default     = "sa"
 }
-
-variable "image_container_instance_count" {
-  type        = number
-  description = "Number of Image Container Instances."
-  default     = 1
-}

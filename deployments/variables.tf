@@ -29,12 +29,6 @@ variable "web_app_prefix" {
   default     = "web"
 }
 
-variable "web_app_instance_count" {
-  type        = number
-  description = "Number of Web App Instances."
-  default     = 1
-}
-
 variable "web_app_worker_count" {
   type        = number
   description = "Number of Web App Workers."
@@ -97,10 +91,4 @@ variable "sa_prefix" {
   type        = string
   description = "Name of Storage Account."
   default     = "sa"
-}
-
-variable "image_container_instance_count" {
-  type        = number
-  description = "Number of Image Container Instances."
-  default     = 1
 }

@@ -11,25 +11,24 @@ resource "azurerm_linux_web_app" "web_app" {
   resource_group_name           = var.rg_name
   location                      = var.location
   service_plan_id               = azurerm_service_plan.svc_plan.id
-  count                         = var.web_app_instance_count
   public_network_access_enabled = true
   https_only                    = true
-  virtual_network_subnet_id = var.subnet_id
+  virtual_network_subnet_id     = var.subnet_id
   tags                          = local.common_tags
 
   connection_string {
-    name = "DATABASE_URL"
-    type = "MySQL"
-    value = var.database_url  
+    name  = "DATABASE_URL"
+    type  = "MySQL"
+    value = var.database_url
   }
 
 
   storage_account {
-    name = var.storage_account_name
-    type = "AzureBlob"
-    access_key = var.storage_account_primary_access_key
+    name         = var.storage_account_name
+    type         = "AzureBlob"
+    access_key   = var.storage_account_primary_access_key
     account_name = var.storage_account_name
-    share_name = var.storage_container_name
+    share_name   = var.storage_container_name
   }
 
   app_settings = {
