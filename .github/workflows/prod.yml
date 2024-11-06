@@ -81,7 +81,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # Selects the workspace
+      # Initialize Terraform
+      - name: Terraform init
+        working-directory: ${{env.WORKING_DIR}}
+        id: init
+        run: terraform init
+
+        # Selects the workspace
       - name: Select Terraform Workspace
         working-directory: ${{env.WORKING_DIR}}
         id: select_workspace
@@ -92,12 +98,6 @@ jobs:
         working-directory: ${{env.WORKING_DIR}}
         id: list_workspace
         run: terraform workspace list
-
-      # Initialize Terraform
-      - name: Terraform init
-        working-directory: ${{env.WORKING_DIR}}
-        id: init
-        run: terraform init
 
       # Plans the Terraform project
       - name: Terraform plan
