@@ -74,7 +74,7 @@ jobs:
         id: validate
         run: terraform validate
   plan:
-    needs: [validate]
+    needs: [linting, tfsec, validate]
     runs-on: ubuntu-22.04
     name: "Terraform Plan"
 
