@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: Development Workflow
+name: Development Deployment
 
 # Controls when the workflow will run
 on:
@@ -12,7 +12,7 @@ on:
   workflow_dispatch:
 
 env:
-  WORKSPACE: ${{ github.event_name == 'pull_request' && (github.base_ref == 'main' && 'prod' || github.head_ref) || (github.ref == 'refs/heads/main' && 'prod' || github.ref_name) }}
+  WORKSPACE: ${{ github.ref == 'refs/heads/main' && 'prod' || github.ref_name }}
   WORKING_DIR: "./deployments"
   ARM_CLIENT_ID: ${{secrets.AZURE_CLIENT_ID}}
   ARM_CLIENT_SECRET: ${{secrets.AZURE_CLIENT_SECRET}}
@@ -44,7 +44,7 @@ jobs:
         run: tflint --recursive --minimum-failure-severity error
   tfsec:
     if: github.ref == 'refs/heads/dev'
-    name: tfsec
+    name: Security Check
     runs-on: ubuntu-22.04
 
     steps:
