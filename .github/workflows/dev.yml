@@ -1,20 +1,18 @@
 # This is a basic workflow to help you get started with Actions
 
-name: Development Workflow
+name: Development Deployment
 
 # Controls when the workflow will run
 on:
   # Triggers the workflow on push or pull request events but only for the "dev" branch
   push:
     branches: ["dev"]
-  pull_request:
-    branches: ["dev"]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
 env:
-  WORKSPACE: ${{ github.event_name == 'pull_request' && (github.base_ref == 'main' && 'prod' || github.head_ref) || (github.ref == 'refs/heads/main' && 'prod' || github.ref_name) }}
+  WORKSPACE: ${{ github.ref == 'refs/heads/main' && 'prod' || github.ref_name }}
   WORKING_DIR: "./deployments"
   ARM_CLIENT_ID: ${{secrets.AZURE_CLIENT_ID}}
   ARM_CLIENT_SECRET: ${{secrets.AZURE_CLIENT_SECRET}}
@@ -24,6 +22,7 @@ env:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   linting:
+    if: github.ref == 'refs/heads/dev'
     name: "Linting"
     runs-on: ubuntu-22.04
     steps:
@@ -44,7 +43,8 @@ jobs:
         id: tflint
         run: tflint --recursive --minimum-failure-severity error
   tfsec:
-    name: tfsec
+    if: github.ref == 'refs/heads/dev'
+    name: Security Check
     runs-on: ubuntu-22.04
 
     steps:
@@ -56,6 +56,7 @@ jobs:
           # Excludes all LOW severities.
           additional_args: --minimum-severity MEDIUM
   validate:
+    if: github.ref == 'refs/heads/dev'
     name: "Validate"
     runs-on: ubuntu-22.04
 
@@ -80,6 +81,7 @@ jobs:
         id: validate
         run: terraform validate
   plan:
+    if: github.ref == 'refs/heads/dev'
     needs: [validate]
     runs-on: ubuntu-22.04
     name: "Terraform Plan"
@@ -112,6 +114,7 @@ jobs:
           path: ${{env.WORKING_DIR}}/${{env.WORKSPACE}}.tfplan
 
   apply:
+    if: github.ref == 'refs/heads/dev'
     needs: [plan]
     runs-on: ubuntu-22.04
     environment: dev
