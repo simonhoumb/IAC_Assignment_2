@@ -36,7 +36,7 @@ jobs:
   
       - name: Build
         id: build
-        run: go build -o app main.go
+        run: go build main.go
         working-directory: 'cmd'
         shell: bash
 
@@ -44,7 +44,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: app-binary
-          path: cmd/app  # Upload the compiled binary
+          path: cmd  
 
   azure:  
     needs: [go]
@@ -57,7 +57,7 @@ jobs:
       uses: actions/download-artifact@v3
       with:
         name: app-binary
-        path: cmd/  # Download to the cmd directory
+        path: cmd
     
     - name: Azure Login
       id: az_login
@@ -71,4 +71,4 @@ jobs:
       with:
         app-name: "web-simonhou-oppg2-${{env.WORKSPACE}}"
         slot-name: 'webslot'
-        package: 'cmd/'
+        package: 'cmd'
