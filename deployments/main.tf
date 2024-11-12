@@ -9,7 +9,9 @@ module "app" {
   location                           = var.location
   svc_plan_prefix                    = var.svc_plan_prefix
   web_app_prefix                     = var.web_app_prefix
+  web_app_slot_name                  = var.web_app_slot_name
   web_app_worker_count               = var.web_app_worker_count
+  go_version                         = var.go_version
   database_url                       = module.database.database_url
   storage_connection_string          = module.storage.storage_connection_string
   subnet_id                          = module.network.subnet_id

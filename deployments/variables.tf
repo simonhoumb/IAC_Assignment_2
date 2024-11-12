@@ -29,10 +29,22 @@ variable "web_app_prefix" {
   default     = "web"
 }
 
+variable "web_app_slot_name" {
+  type        = string
+  description = "Name of Web App Slot."
+  default     = "webslot"
+}
+
 variable "web_app_worker_count" {
   type        = number
   description = "Number of Web App Workers."
   default     = 1
+}
+
+variable "go_version" {
+  type        = string
+  description = "Version of Golang used in Web App."
+  default     = "1.19"
 }
 
 # Database Variables

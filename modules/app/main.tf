@@ -46,3 +46,29 @@ resource "azurerm_linux_web_app" "web_app" {
 
   }
 }
+
+resource "azurerm_linux_web_app_slot" "web_app_slot" {
+  app_service_id                = azurerm_linux_web_app.web_app.id
+  name                          = var.web_app_slot_name
+  public_network_access_enabled = true
+
+  site_config {
+    application_stack {
+      go_version = var.go_version
+    }
+  }
+
+  auth_settings {
+    enabled = false
+  }
+
+  lifecycle {
+    ignore_changes = [
+      auth_settings
+    ]
+  }
+
+  depends_on = [
+    azurerm_linux_web_app.web_app
+  ]
+}
