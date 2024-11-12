@@ -5,7 +5,6 @@ on:
   
 env:
   WORKSPACE: ${{ github.ref == 'refs/heads/main' && 'prod' || github.ref_name }}
-  AZURE_WEBAPP_NAME: "web-simonhou-oppg2-${{env.WORKSPACE}}"
   ARM_CLIENT_ID: ${{secrets.AZURE_CLIENT_ID}}
   ARM_CLIENT_SECRET: ${{secrets.AZURE_CLIENT_SECRET}}
   ARM_SUBSCRIPTION_ID: ${{secrets.AZURE_SUBSCRIPTION_ID}}
