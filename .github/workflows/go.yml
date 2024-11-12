@@ -40,6 +40,7 @@ jobs:
         shell: bash
 
   azure:  
+    needs: [go]
     name: Deploy to Azure Web App
     runs-on: ubuntu-22.04
     steps:
