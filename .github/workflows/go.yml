@@ -40,11 +40,11 @@ jobs:
         working-directory: 'cmd'
         shell: bash
 
-      - uses: actions/cache@v3
-        id: cache
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v3
         with:
-          key: "${{env.WORKSPACE}}-${{github.run_id}}-${{github.run_number}}-cmd"
-          path: ./cmd
+          name: app-binary
+          path: cmd/app  # Upload the compiled binary
 
   azure:  
     needs: [go]
@@ -53,11 +53,11 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - uses: actions/cache/restore@v3
-      id: restore
+    - name: Download Build Artifact
+      uses: actions/download-artifact@v3
       with:
-        key: "${{env.WORKSPACE}}-${{github.run_id}}-${{github.run_number}}-cmd"
-        path: ./cmd
+        name: app-binary
+        path: cmd/  # Download to the cmd directory
     
     - name: Azure Login
       id: az_login
@@ -71,4 +71,4 @@ jobs:
       with:
         app-name: "web-simonhou-oppg2-${{env.WORKSPACE}}"
         slot-name: 'webslot'
-        package: 'cmd/app'
+        package: 'cmd/'
