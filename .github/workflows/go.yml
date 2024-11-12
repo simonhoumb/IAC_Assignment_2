@@ -40,12 +40,24 @@ jobs:
         working-directory: 'cmd'
         shell: bash
 
+      - uses: actions/cache@v3
+        id: cache
+        with:
+          key: "${{env.WORKSPACE}}-${{github.run_id}}-${{github.run_number}}-cmd"
+          path: ./cmd
+
   azure:  
     needs: [go]
     name: Deploy to Azure Web App
     runs-on: ubuntu-22.04
     steps:
     - uses: actions/checkout@v4
+
+    - uses: actions/cache/restore@v3
+      id: restore
+      with:
+        key: "${{env.WORKSPACE}}-${{github.run_id}}-${{github.run_number}}-cmd"
+        path: ./cmd
     
     - name: Azure Login
       id: az_login
