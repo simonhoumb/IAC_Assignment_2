@@ -19,6 +19,7 @@ jobs:
         id: checkout
         uses: actions/checkout@v4.2.2
         with:
+          ref: 'main'
           repository: 'simonhoumb/gutendex-api.git'
   
       - name: Setup Go
