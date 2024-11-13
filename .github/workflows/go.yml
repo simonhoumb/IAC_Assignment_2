@@ -26,7 +26,7 @@ jobs:
         id: setup_go
         uses: actions/setup-go@v5
         with:
-          go-version-file: cmd/go.mod
+          go-version-file: go.mod
   
       - name: Go Test
         id: go_test
@@ -44,7 +44,9 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: app-binary
-          path: cmd  
+          path: |
+            cmd/
+            go.mod
 
   azure:  
     needs: [go]
@@ -57,7 +59,9 @@ jobs:
       uses: actions/download-artifact@v3
       with:
         name: app-binary
-        path: cmd
+        path: |
+          cmd
+          go.mod
     
     - name: Azure Login
       id: az_login
