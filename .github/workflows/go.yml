@@ -45,7 +45,7 @@ jobs:
         with:
           name: app-binary
           path: |
-            cmd/
+            cmd/main
             go.mod
 
   azure:  
@@ -60,8 +60,7 @@ jobs:
       with:
         name: app-binary
         path: |
-          cmd
-          go.mod
+          .
     
     - name: Azure Login
       id: az_login
@@ -75,4 +74,4 @@ jobs:
       with:
         app-name: "web-simonhou-oppg2-${{env.WORKSPACE}}"
         slot-name: 'webslot'
-        package: 'app-binary'
+        package: './cmd/app-binary'
