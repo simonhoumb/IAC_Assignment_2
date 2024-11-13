@@ -11,7 +11,7 @@ env:
   ARM_TENANT_ID: ${{secrets.AZURE_TENANT_ID}}
 
 jobs:
-  go:
+  deploy:
     name: Go Setup
     runs-on: ubuntu-22.04
     steps:
@@ -39,39 +39,17 @@ jobs:
         run: go build main.go
         working-directory: 'cmd'
         shell: bash
-
-      - name: Upload Build Artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: app-binary
-          path: |
-            cmd/main
-            go.mod
-
-  azure:  
-    needs: [go]
-    name: Deploy to Azure Web App
-    runs-on: ubuntu-22.04
-    steps:
-    - uses: actions/checkout@v4
-
-    - name: Download Build Artifact
-      uses: actions/download-artifact@v3
-      with:
-        name: app-binary
-        path: |
-          .
     
-    - name: Azure Login
-      id: az_login
-      uses: azure/login@v2
-      with:
-        creds: '{"clientId":"${{ secrets.AZURE_CLIENT_ID }}","clientSecret":"${{ secrets.AZURE_CLIENT_SECRET }}","subscriptionId":"${{ secrets.AZURE_SUBSCRIPTION_ID }}","tenantId":"${{ secrets.AZURE_TENANT_ID }}"}'
-
-    - name: Deploy to Azure Web App
-      id: deploy_to_webapp
-      uses: azure/webapps-deploy@v2
-      with:
-        app-name: "web-simonhou-oppg2-${{env.WORKSPACE}}"
-        slot-name: 'webslot'
-        package: './cmd/app-binary'
+      - name: Azure Login
+        id: az_login
+        uses: azure/login@v2
+        with:
+          creds: '{"clientId":"${{ secrets.AZURE_CLIENT_ID }}","clientSecret":"${{ secrets.AZURE_CLIENT_SECRET }}","subscriptionId":"${{ secrets.AZURE_SUBSCRIPTION_ID }}","tenantId":"${{ secrets.AZURE_TENANT_ID }}"}'
+  
+      - name: Deploy to Azure Web App
+        id: deploy_to_webapp
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: "web-simonhou-oppg2-${{env.WORKSPACE}}"
+          slot-name: 'webslot'
+          package: 'cmd'
