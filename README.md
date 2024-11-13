@@ -7,6 +7,8 @@
 
 ## Requirements
 
+Needed to run locally:
+
 - [**Terraform CLI Installation Guide**](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)
 - [**Microsoft Azure CLI Installation Guide**](https://learn.microsoft.com/en-us/cli/azure/install-azure-cl)
 
@@ -48,7 +50,7 @@ The backend needs to be deployed before the main infrastructure. It stores all t
 
 ## Github Workflow Files
 
-One for each environment (all require a review before applying infrastructure):
+One for each environment (the apply job will use environment rules so adding a review requirement in GitHub is possible):
 
 - Development (**dev.yml**) used for the dev branch
 - Staging (**stage.yml**) used for the stage branch
@@ -57,6 +59,13 @@ One for each environment (all require a review before applying infrastructure):
 Destroy Infrastructure (**destroy.yml**)
 
 - Only able to run manually through GitHub
+
+All the workflows use GitHub environment secrets for storing Azure credentials:
+
+- **ARM_CLIENT_ID** needs to be set as the Azure app ID
+- **ARM_CLIENT_SECRET** as the Azure password
+- **ARM_TENANT_ID** as the Azure tenant ID
+- **ARM_SUBSCRIPTION_ID** as the Azure subscription ID
 
 ## Known Issues
 
